@@ -4,29 +4,21 @@ declare(strict_types=1);
 
 namespace health\bar;
 
+use health\bar\task\HealthBarTask;
 use pocketmine\plugin\PluginBase;
-use pocketmine\scheduler\Task;
-use pocketmine\utils\TextFormat;
 
 class HealthBar extends PluginBase{
 
 	public function onEnable() : void{
-		$this->getScheduler()->scheduleDelayedRepeatingTask(new class($this) extends Task{
-			
-			/** @var HealthBar */
-			private $plugin;
-
-			public function __construct(HealthBar $plugin){
-				$this->plugin = $plugin;
-			}
-
-			public function onRun(int $currentTick) : void{
-				foreach($this->plugin->getServer()->getOnlinePlayers() as $player){
-					if($player->getGamemode() === 0){
-						$player->setScoreTag(TextFormat::RESET . TextFormat::WHITE . $player->getHealth() / 2 . TextFormat::RED . " ❤");
-					}
-				}
-			}
-		}, 10, 10);
+		if(!is_dir($this->getDataFolder())){
+			mkdir($this->getDataFolder());
+		}
+		$this->saveDefaultConfig();
+		if($this->getConfig()->get("style") !== "number-symbol" || $this->getConfig()->get("style") !== "lines"){
+			$this->getLogger()->warning("Invalid health bar style. Plugin disabled.");
+			$this->getServer()->getPluginManager()->disablePlugin($this);
+			return;
+		}
+		$this->getScheduler()->scheduleDelayedRepeatingTask(new HealthBarTask($this), 10, 10);
 	}
 }
