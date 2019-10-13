@@ -1,0 +1,5 @@
+name: HealthBar
+version: 1.0.1
+main: health\bar\HealthBar
+api: 3.0.0
+author: extoferg
