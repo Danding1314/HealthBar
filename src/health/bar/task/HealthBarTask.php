@@ -22,13 +22,13 @@ class HealthBarTask extends Task{
 			if($player->getGamemode() === 0){
 				switch($this->plugin->getConfig()->get("style")){
 					case "number-symbol":
-						$player->setScoreTag(TextFormat::RESET . TextFormat::WHITE . $player->getHealth() / 2 . TextFormat::RED . " ❤");
+						$player->setScoreTag(TextFormat::RESET . TextFormat::WHITE . round($player->getHealth() / 2, 2) . TextFormat::RED . " ❤");
 						break;
 					case "lines":
 						$str = "";
 						$i = 0;
 						while($i < $player->getMaxHealth()){
-							if($player->getHealth() / 2 > $i){
+							if(round($player->getHealth() / 2) > $i){
 								$str .= TextFormat::GREEN . "'";
 							}else{
 								$str .= TextFormat::RED . "'";
