@@ -1,5 +1,5 @@
 name: HealthBar
-version: 1.0.2
-main: health\bar\HealthBar
-api: 3.0.0
-author: extoferg
+version: 1.0.0
+main: cignuss\HealthBar
+api: [3.0.0]
+author: cignuss
