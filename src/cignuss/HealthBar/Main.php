@@ -13,10 +13,9 @@ class Main extends PluginBase{
 	public function onEnable() : void{
 		$this->getScheduler()->scheduleDelayedRepeatingTask(new ClosureTask(function(int $currentTick) : void{
 			foreach($this->getServer()->getOnlinePlayers() as $player){
-				if(!$player->isSurvival() || !$player->isAdventure()){
-					continue;
+				if($player->isSurvival() || $player->isAdventure()){
+					$player->setScoreTag(TextFormat::RESET . TextFormat::WHITE . round($player->getHealth() / 2, 2) . TextFormat::RED . " ❤");
 				}
-				$player->setScoreTag(TextFormat::RESET . TextFormat::WHITE . round($player->getHealth() / 2, 2) . TextFormat::RED . " ❤");
 			}
 		}), 10, 10);
 	}
